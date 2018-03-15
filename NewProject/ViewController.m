@@ -9,7 +9,9 @@
 #import "ViewController.h"
 
 @interface ViewController ()
-@property (nonatomic ,strong)UIButton *blueBtn;
+@property (nonatomic ,strong)UIButton *wxBtn;
+@property (nonatomic ,strong)UIButton *qqBtn;
+@property (nonatomic ,strong)UIButton *wbBtn;
 @end
 
 @implementation ViewController
@@ -17,18 +19,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.blueBtn = [[UIButton alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
-    self.blueBtn.backgroundColor = [UIColor blueColor];
-    [self.blueBtn addTarget:self action:@selector(abccc) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.blueBtn];
-    // Do any additional setup after loading the view, typically from a nib.
+    self.wxBtn = [[UIButton alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
+    self.wxBtn.backgroundColor = [UIColor blueColor];
+    [self.wxBtn addTarget:self action:@selector(xwBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.wxBtn];
+    
+    self.qqBtn = [[UIButton alloc] initWithFrame:CGRectMake(100, 200, 100, 100)];
+    self.qqBtn.backgroundColor = [UIColor blueColor];
+    [self.qqBtn addTarget:self action:@selector(qqBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.qqBtn];
 }
 
-//- (void)abccc {
-//    NSArray *aaa = @[@"1",@"2",@"3"];
-//    NSString *bb = [aaa objectAtIndex:5];
-//    NSLog(@"");
-//}
+- (void)xwBtnClicked {
+    
+}
+
+- (void)qqBtnClicked {
+    
+    
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

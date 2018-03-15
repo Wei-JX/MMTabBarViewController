@@ -7,7 +7,13 @@ target 'NewProject' do
  pod 'ReactiveCocoa',            :git => 'https://github.com/zhao0/ReactiveCocoa.git', :tag => '2.5.2'
  pod 'YTKNetwork'
   # Pods for NewProject
-
+  pod 'YppBaseRequest',            :path => 'YppBaseRequest'
+  pod 'WeChatSDK-iOS',            '~> 1.7.3'
+   pod 'Masonry',                  '1.1.0'
+   pod 'MJExtension',              '3.0.13'
+   pod 'SDVersion',                '4.3.2'
+   pod 'HJTabViewController',      '1.0.6'
+   pod 'TencentOpenAPI',           :path => 'TencentOpenAPI'  #当前版本 3.2.3
   target 'NewProjectTests' do
     inherit! :search_paths
     # Pods for testing

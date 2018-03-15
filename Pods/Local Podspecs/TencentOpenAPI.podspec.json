@@ -1,0 +1,38 @@
+{
+  "name": "TencentOpenAPI",
+  "version": "3.2.3",
+  "summary": "iOS版腾讯开放平台SDK",
+  "description": "A short description of TencentOpenAPI.",
+  "homepage": "http://open.qq.com",
+  "license": "MIT",
+  "authors": {
+    "WangTao": "wangtao@yupaopao.cn"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source": {
+    "git": "http://ios-repo.oss-cn-shanghai.aliyuncs.com/man/1.0.7/man.zip",
+    "tag": "3.2.3"
+  },
+  "resources": "TencentOpenApi_IOS_Bundle.bundle",
+  "ios": {
+    "vendored_frameworks": "TencentOpenAPI.framework"
+  },
+  "frameworks": [
+    "Security",
+    "SystemConfiguration",
+    "CoreTelephony",
+    "CoreGraphics"
+  ],
+  "libraries": [
+    "iconv",
+    "z",
+    "c++",
+    "sqlite3"
+  ],
+  "requires_arc": true,
+  "xcconfig": {
+    "HEADER_SEARCH_PATHS": "$(SDKROOT)/usr/include/libxml2"
+  }
+}
