@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-
+#import "NSObject+BreakPoint.h"
 @interface AppDelegate ()
 
 @end
