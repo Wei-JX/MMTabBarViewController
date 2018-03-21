@@ -7,6 +7,7 @@ target 'NewProject' do
  pod 'ReactiveCocoa',            :git => 'https://github.com/zhao0/ReactiveCocoa.git', :tag => '2.5.2'
  pod 'YTKNetwork'
   # Pods for NewProject
+  pod 'MMTabBarViewController',            :path => 'MMTabBarViewController'
   pod 'WeChatSDK-iOS',            '~> 1.7.3'
    pod 'Masonry',                  '1.1.0'
    pod 'MJExtension',              '3.0.13'

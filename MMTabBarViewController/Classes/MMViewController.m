@@ -3,8 +3,12 @@
 //  NewProject
 //
 //  Created by admin on 2018/3/15.
-//  Copyright © 2018年 admin. All rights reserved.
+//  Copyright © 2018年 牛逼人. All rights reserved.
 //
+
+////////
+//主tabBar控制器
+///////
 
 #define MINOFFSET 10
 
@@ -179,6 +183,7 @@
             vc.automaticallyAdjustsScrollViewInsets = NO;
             vc.view.frame = CGRectMake(self.scrollView.bounds.size.width*i, 0, self.scrollView.bounds.size.width, self.scrollView.bounds.size.height);
             if (i ==0) {
+                vc.view.frame = CGRectMake(self.scrollView.bounds.size.width*i, 0, self.scrollView.bounds.size.width, self.scrollView.bounds.size.height+64);
                 [self.mapTable setObject:vc forKey:@(i).stringValue];
                 [vc willMoveToParentViewController:self];
                 [self addChildViewController:vc];

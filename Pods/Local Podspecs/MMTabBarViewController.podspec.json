@@ -1,0 +1,28 @@
+{
+  "name": "MMTabBarViewController",
+  "version": "0.0.1",
+  "summary": "A short description of MMTabBarViewController.",
+  "description": "A short description of MMTabBarViewController.",
+  "homepage": "http://lijiachao@git.innotechx.com/scm/~lijiachao/test.git",
+  "license": "MIT",
+  "authors": {
+    "李佳超": "lijiachao@yupaopao.cn"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source": {
+    "git": "http://lijiachao@git.innotechx.com/scm/~lijiachao/test.git",
+    "tag": "0.0.1"
+  },
+  "source_files": [
+    "Classes",
+    "Classes/*.{h,m}"
+  ],
+  "ios": {
+    "public_header_files": "Framework/*.framework/Headers/*.h",
+    "vendored_frameworks": "Framework/*.framework"
+  },
+  "requires_arc": true,
+  "resources": "Images/*.xcassets"
+}

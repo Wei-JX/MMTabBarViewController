@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5518A256F70BEAF2EC50F529404E6097"
-               BlueprintName = "YTKNetwork"
+               BlueprintIdentifier = "6B5A4AA0A8ACC143C20DC8EE58F3C910"
+               BlueprintName = "MMTabBarViewController"
                ReferencedContainer = "container:Pods.xcodeproj"
-               BuildableName = "libYTKNetwork.a">
+               BuildableName = "libMMTabBarViewController.a">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

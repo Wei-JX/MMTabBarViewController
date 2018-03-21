@@ -17,15 +17,8 @@
 		84184D422058B931002FEBED /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84184D412058B931002FEBED /* main.m */; };
 		84184D4C2058B931002FEBED /* NewProjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84184D4B2058B931002FEBED /* NewProjectTests.m */; };
 		84184D572058B931002FEBED /* NewProjectUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84184D562058B931002FEBED /* NewProjectUITests.m */; };
-		843834D9205F93960081020A /* MMTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 843834D8205F93960081020A /* MMTabBarViewController.m */; };
-		843834DC205F96160081020A /* MMCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 843834DB205F96160081020A /* MMCollectionViewCell.m */; };
-		843834DF206101A30081020A /* MMTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 843834DE206101A30081020A /* MMTableViewCell.m */; };
 		8444FE1820613CC100BCFD13 /* saber.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8444FE1720613CC100BCFD13 /* saber.jpg */; };
 		8484D03F2058F42700F213A7 /* NSObject+BreakPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 8484D03E2058F42700F213A7 /* NSObject+BreakPoint.m */; };
-		8484D042205A486A00F213A7 /* MMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8484D041205A486A00F213A7 /* MMViewController.m */; };
-		8484D045205A5D1E00F213A7 /* MMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8484D044205A5D1E00F213A7 /* MMTableViewController.m */; };
-		8484D048205A5D4900F213A7 /* SMMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8484D047205A5D4900F213A7 /* SMMTableViewController.m */; };
-		8484D04B205A68B300F213A7 /* UIViewController+MMScrollViewCtronller.m in Sources */ = {isa = PBXBuildFile; fileRef = 8484D04A205A68B300F213A7 /* UIViewController+MMScrollViewCtronller.m */; };
 		F90BC93990BBBE7A83277DE4 /* libPods-NewProjectUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B59A5D5DF2C3C23A2FE291B /* libPods-NewProjectUITests.a */; };
 /* End PBXBuildFile section */
 
@@ -69,23 +62,9 @@
 		84184D522058B931002FEBED /* NewProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewProjectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		84184D562058B931002FEBED /* NewProjectUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewProjectUITests.m; sourceTree = "<group>"; };
 		84184D582058B931002FEBED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		843834D7205F93960081020A /* MMTabBarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMTabBarViewController.h; sourceTree = "<group>"; };
-		843834D8205F93960081020A /* MMTabBarViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMTabBarViewController.m; sourceTree = "<group>"; };
-		843834DA205F96160081020A /* MMCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMCollectionViewCell.h; sourceTree = "<group>"; };
-		843834DB205F96160081020A /* MMCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMCollectionViewCell.m; sourceTree = "<group>"; };
-		843834DD206101A30081020A /* MMTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMTableViewCell.h; sourceTree = "<group>"; };
-		843834DE206101A30081020A /* MMTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMTableViewCell.m; sourceTree = "<group>"; };
 		8444FE1720613CC100BCFD13 /* saber.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = saber.jpg; sourceTree = "<group>"; };
 		8484D03D2058F42700F213A7 /* NSObject+BreakPoint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+BreakPoint.h"; sourceTree = "<group>"; };
 		8484D03E2058F42700F213A7 /* NSObject+BreakPoint.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+BreakPoint.m"; sourceTree = "<group>"; };
-		8484D040205A486A00F213A7 /* MMViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMViewController.h; sourceTree = "<group>"; };
-		8484D041205A486A00F213A7 /* MMViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMViewController.m; sourceTree = "<group>"; };
-		8484D043205A5D1E00F213A7 /* MMTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMTableViewController.h; sourceTree = "<group>"; };
-		8484D044205A5D1E00F213A7 /* MMTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMTableViewController.m; sourceTree = "<group>"; };
-		8484D046205A5D4900F213A7 /* SMMTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMMTableViewController.h; sourceTree = "<group>"; };
-		8484D047205A5D4900F213A7 /* SMMTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SMMTableViewController.m; sourceTree = "<group>"; };
-		8484D049205A68B300F213A7 /* UIViewController+MMScrollViewCtronller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+MMScrollViewCtronller.h"; sourceTree = "<group>"; };
-		8484D04A205A68B300F213A7 /* UIViewController+MMScrollViewCtronller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MMScrollViewCtronller.m"; sourceTree = "<group>"; };
 		A2F273B6B616F2DF6F6F9B16 /* Pods-NewProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewProject.release.xcconfig"; path = "Pods/Target Support Files/Pods-NewProject/Pods-NewProject.release.xcconfig"; sourceTree = "<group>"; };
 		EFB8D8568E44CC94DF53BEC3 /* Pods-NewProjectTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewProjectTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NewProjectTests/Pods-NewProjectTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F07BDC75D869176773999526 /* Pods-NewProjectUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewProjectUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NewProjectUITests/Pods-NewProjectUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -168,21 +147,7 @@
 				84184D3D2058B930002FEBED /* LaunchScreen.storyboard */,
 				84184D402058B930002FEBED /* Info.plist */,
 				84184D412058B931002FEBED /* main.m */,
-				8484D040205A486A00F213A7 /* MMViewController.h */,
-				8484D041205A486A00F213A7 /* MMViewController.m */,
 				8444FE1720613CC100BCFD13 /* saber.jpg */,
-				843834DD206101A30081020A /* MMTableViewCell.h */,
-				843834DE206101A30081020A /* MMTableViewCell.m */,
-				8484D049205A68B300F213A7 /* UIViewController+MMScrollViewCtronller.h */,
-				8484D04A205A68B300F213A7 /* UIViewController+MMScrollViewCtronller.m */,
-				8484D043205A5D1E00F213A7 /* MMTableViewController.h */,
-				8484D044205A5D1E00F213A7 /* MMTableViewController.m */,
-				843834DA205F96160081020A /* MMCollectionViewCell.h */,
-				843834DB205F96160081020A /* MMCollectionViewCell.m */,
-				843834D7205F93960081020A /* MMTabBarViewController.h */,
-				843834D8205F93960081020A /* MMTabBarViewController.m */,
-				8484D046205A5D4900F213A7 /* SMMTableViewController.h */,
-				8484D047205A5D4900F213A7 /* SMMTableViewController.m */,
 			);
 			path = NewProject;
 			sourceTree = "<group>";
@@ -508,16 +473,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8484D048205A5D4900F213A7 /* SMMTableViewController.m in Sources */,
-				8484D042205A486A00F213A7 /* MMViewController.m in Sources */,
-				843834DC205F96160081020A /* MMCollectionViewCell.m in Sources */,
 				84184D372058B930002FEBED /* ViewController.m in Sources */,
 				84184D422058B931002FEBED /* main.m in Sources */,
-				843834DF206101A30081020A /* MMTableViewCell.m in Sources */,
-				8484D04B205A68B300F213A7 /* UIViewController+MMScrollViewCtronller.m in Sources */,
-				8484D045205A5D1E00F213A7 /* MMTableViewController.m in Sources */,
 				8484D03F2058F42700F213A7 /* NSObject+BreakPoint.m in Sources */,
-				843834D9205F93960081020A /* MMTabBarViewController.m in Sources */,
 				84184D342058B930002FEBED /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
