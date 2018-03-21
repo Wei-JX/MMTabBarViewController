@@ -14,6 +14,13 @@
 - (NSUInteger)numberOfMMTableViewControllers;
 - (MMTableViewController *)MMTableViewControllerWithIndex:(NSUInteger)index;
 - (UIView *)MMTableHeaderView;
+
+
+- (NSInteger)numbersOfTabBar;
+- (NSArray *)titlesForTabBar;
+- (CGSize)sizeOfTabBarToBound;
+- (void)scrollToNotifyTabBar:(float)offset;
+
 @end
 @interface MMViewController : UIViewController
 

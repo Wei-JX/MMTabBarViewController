@@ -7,6 +7,8 @@
 //
 
 #import "SMMTableViewController.h"
+#import <Masonry.h>
+#import "MMTableViewCell.h"
 
 @interface SMMTableViewController ()
 
@@ -17,6 +19,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view addSubview:self.tableView];
+    CGRect frame = self.tableView.frame;
+    frame.size.height -=64;
+    self.tableView.frame = frame;
+
+    [self.tableView registerClass:[MMTableViewCell class] forCellReuseIdentifier:@"MMTableViewCell"];
+
     // Do any additional setup after loading the view.
 }
 
@@ -28,18 +36,19 @@
     return 1;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.index ==1 ? 30:3;
+    return self.index;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 30;
+    return 70;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"aaa"];
-    cell.contentView.backgroundColor = [UIColor greenColor];
+    MMTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:@"MMTableViewCell" forIndexPath:indexPath];
     return cell;
 }
+
+
 /*
 #pragma mark - Navigation
 
