@@ -23,11 +23,9 @@
 
 - (instancetype)initWithFrame:(CGRect)frame ViewController:(UIViewController *)viewController
 {
-    
     if (self = [super initWithFrame:frame]) {
         _viewController = (MMViewController *)viewController;
         _chooseIndex = 0;
-        //_viewController.delegate  = self;
         [self setUI];
         
     }
@@ -39,10 +37,11 @@
     layout.minimumLineSpacing = 0;
     layout.minimumInteritemSpacing = 0;
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    layout.itemSize = CGSizeMake(50, 40);
-    _itemWidth = 50;
+    CGSize size = [_viewController getCollectionViewItemSize];
+    layout.itemSize = size;
+    _itemWidth = size.width;
     self.collectionView =
-    [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 40) collectionViewLayout:layout];
+    [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, size.height+3) collectionViewLayout:layout];
     [self.collectionView registerClass:[MMCollectionViewCell class]
                    forCellWithReuseIdentifier:@"MMCollectionViewCellIdenter"];
     self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -76,45 +75,12 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [self.delegate tabBarScrollToIndex:indexPath.row];
-    
-//    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
-//    CGRect rectInScrollView = [self.collectionView convertRect:cell.frame toView:self.collectionView];
-//    CGFloat inScrollX = rectInScrollView.origin.x;
-//    CGFloat itemX = [self.collectionView convertRect:rectInScrollView toView:[self.collectionView superview]].origin.x;
-//
-//    CGPoint offset = collectionView.contentOffset;
-//    CGFloat chaX = collectionView.bounds.size.width/2 ;
-//
-//    CGFloat itemCentX = (_itemWidth*indexPath.row + _itemWidth/2);
-//    CGFloat chaItemX = itemCentX - chaX;
-//
-//    if (chaItemX <0) {
-//        offset.x = 0;
-//    } else {
-//        offset.x = chaItemX;
-//    }
-//
-//
-////    CGFloat offX = itemX - chaX;
-////    offset.x += offX;
-////    if (offset.x <0) {
-////        offset.x = 0;
-////    }
-//    if (offset.x > (collectionView.contentSize.width-collectionView.bounds.size.width)) {
-//        offset.x = (collectionView.contentSize.width-collectionView.bounds.size.width);
-//    }
-//    [collectionView setContentOffset:offset animated:YES];
-//    self.collectionView.scrollsToTop = YES;
-    
-   // [self setCollectViewItemWithIndex:indexPath.row];
 }
 
 - (void)scrollToNotifyTabBar:(NSInteger)index {
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
     UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
     CGRect rectInScrollView = [self.collectionView convertRect:cell.frame toView:self.collectionView];
-    CGFloat itemX = [self.collectionView convertRect:rectInScrollView toView:[self.collectionView superview]].origin.x;
-    
     CGPoint offset = self.collectionView.contentOffset;
     CGFloat chaX = self.collectionView.bounds.size.width/2;
     ///
@@ -126,13 +92,6 @@
     } else {
         offset.x = chaItemX;
     }
-    
-    ////
-//    CGFloat offX = itemX - chaX;
-//    offset.x += offX;
-//    if (offset.x < 0) {
-//        offset.x = 0;
-//    }
     if (offset.x > (self.collectionView.contentSize.width-self.collectionView.bounds.size.width)) {
         offset.x = (self.collectionView.contentSize.width-self.collectionView.bounds.size.width);
     }
@@ -152,13 +111,6 @@
 - (void)setCollectViewItemWithIndex:(NSInteger)index {
     _chooseIndex = index;
     [self.collectionView reloadData];
-//    NSIndexPath *newIndexPath = [NSIndexPath indexPathForItem:index inSection:0];
-//    MMCollectionViewCell *newCell = (MMCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:newIndexPath];
-//    [newCell setItemSelected:YES];
-//    NSIndexPath *oldIndexPath = [NSIndexPath indexPathForItem:_chooseIndex inSection:0];
-//    MMCollectionViewCell *oldCell = (MMCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:oldIndexPath];
-//    [oldCell setItemSelected:NO];
-//    _chooseIndex = index;
 }
 
 - (UIView *)plugin {

@@ -14,7 +14,6 @@
 #import "SMMTableViewController.h"
 #import "MMTabBarViewController.h"
 
-
 @interface MMViewController () <UIScrollViewDelegate,MMTabBarViewControllerDelegate>
 @property (nonatomic ,strong) UIScrollView *scrollView;
 @property (nonatomic ,strong) NSMutableArray *vieControllers;
@@ -33,7 +32,6 @@
     CGFloat _lastOffY;
 }
 
-
 - (instancetype)init {
     if (self = [super init]) {
         _horizonOffset = 0.0f;
@@ -47,12 +45,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
-//    if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
-//        statusBar.backgroundColor = [UIColor whiteColor];
-//    }
     self.edgesForExtendedLayout=UIRectEdgeBottom;
-           // self.edgesForExtendedLayout = UIRectEdgeNone;
     self.title = @"Bar控制器";
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.backView = [[UIView alloc] initWithFrame:self.view.bounds];
@@ -60,9 +53,8 @@
     self.backView.clipsToBounds = YES;
     self.backView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:self.backView];
-    
+    [self.scrollView setBackgroundColor:[UIColor whiteColor]];
     self.scrollView = [[UIScrollView alloc] initWithFrame:self.backView.bounds];
-    self.scrollView.backgroundColor = [UIColor redColor];
     self.scrollView.showsVerticalScrollIndicator = NO;
     self.scrollView.showsHorizontalScrollIndicator = NO;
     self.scrollView.directionalLockEnabled = YES;
@@ -79,10 +71,6 @@
     UIView *aaa = [[UIView alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
     aaa.backgroundColor = [UIColor blueColor];
     [self.scrollView addSubview:aaa];
-    
-    //  [self.scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionOld context:nil];
-
-    
 
     CGSize size = [self.delegate sizeOfTabBarToBound];
     self.tabBar = [[MMTabBarViewController alloc] initWithFrame:CGRectMake(0, 0, self.backView.frame.size.width, size.height) ViewController:self];
@@ -91,6 +79,22 @@
     [self loadViews];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    
+}
+
+- (void)removeKVO {
+    [_vieControllers enumerateObjectsUsingBlock:^(MMTableViewController *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        UITableView *tableView = obj.tableView;
+        [tableView removeObserver:self forKeyPath:@"contentOffset"];
+    }];
+}
+
+#pragma delegete--
+
+- (CGSize)getCollectionViewItemSize {
+    return [self.delegate sizeOfTabBarToBound];
+}
 - (NSArray *)MMTabBarTitleArrays {
     return [self.delegate titlesForTabBar];
 }
@@ -102,14 +106,50 @@
 - (void)viewDidAppear:(BOOL)animated {
     NSUInteger vcNumbers = [self.delegate numberOfMMTableViewControllers];
     self.scrollView.contentSize = CGSizeMake(self.scrollView.bounds.size.width *vcNumbers , self.scrollView.bounds.size.height);
-   // [self loadViews];
+    // [self loadViews];
 }
+
+- (void)tabBarScrollToIndex:(NSInteger)index {
+    if (index == _curIndx || index < 0 ||index >= _vieControllers.count) {
+        return;
+    }
+    NSInteger value = _curIndx - index;
+    int absValue = abs(value);
+    //[self layoutScrollViewWithIndex:index];
+    BOOL animated =  absValue == 1;
+    if (![self.mapTable objectForKey:@(index).stringValue]) {
+        MMTableViewController *vc = _vieControllers[index];
+        [vc willMoveToParentViewController:self];
+        [self addChildViewController:vc];
+        [vc beginAppearanceTransition:YES animated:YES];
+        [self.scrollView addSubview:vc.view];
+        [vc didMoveToParentViewController:self];
+        [self.mapTable setObject:vc forKey:@(index).stringValue];
+        UITableView *tableView = vc.tableView;
+        
+        [tableView setContentOffset:CGPointMake(tableView.contentOffset.x,0) animated:NO];
+        // tableView.contentOffset = CGPointMake(tableView.contentOffset.x, -CGRectGetMaxY(self.headerView.frame));
+        [tableView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionOld context:nil];
+        UIEdgeInsets inset = tableView.contentInset;
+        inset.top += _headerHeight;
+        tableView.contentInset = inset;
+        tableView.scrollIndicatorInsets = inset;
+        tableView.scrollsToTop = NO;
+    }
+    [self.scrollView setContentOffset:CGPointMake(index*self.scrollView.bounds.size.width,self.scrollView.contentOffset.y) animated:animated];
+    [self layoutScrollViewWithIndex:index];
+    if (!animated) {
+        [self scrollViewDidEndDecelerating:self.scrollView];
+    }
+}
+
+#pragma load--
 
 - (void)loadHeaderView {
     if ([self.delegate respondsToSelector:@selector(MMTableHeaderView)]) {
         self.headerView = [self.delegate MMTableHeaderView];
-         self.headerView.clipsToBounds = YES;
-       // self.headerView.frame = CGRectMake(0, 0, CGRectGetWidth(self.backView.bounds), _headerHeight);
+        self.headerView.clipsToBounds = YES;
+        // self.headerView.frame = CGRectMake(0, 0, CGRectGetWidth(self.backView.bounds), _headerHeight);
         [self.backView addSubview:self.headerView];
     }
     
@@ -129,40 +169,6 @@
     }
     _tabBarHeight = CGRectGetHeight(self.tabBar.frame);
     _headerHeight = CGRectGetHeight(self.headerView.frame);
-}
-
-
-
-- (void)tabBarScrollToIndex:(NSInteger)index {
-    if (index == _curIndx || index < 0 ||index >= _vieControllers.count) {
-        return;
-    }
-    NSInteger value = _curIndx - index;
-    int absValue = abs(value);
-    //[self layoutScrollViewWithIndex:index];
-    BOOL animated =  absValue == 1;
-    if (![self.mapTable objectForKey:@(index).stringValue]) {
-        MMTableViewController *vc = _vieControllers[index];
-        [vc willMoveToParentViewController:self];
-        [self addChildViewController:vc];
-        [vc beginAppearanceTransition:YES animated:YES];
-        [self.scrollView addSubview:vc.view];
-        [vc didMoveToParentViewController:self];
-        [self.mapTable setObject:vc forKey:@(index).stringValue];
-        UITableView *tableView = vc.tableView;
-        tableView.contentOffset = CGPointMake(tableView.contentOffset.x, -CGRectGetMaxY(self.headerView.frame));
-        [tableView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionOld context:nil];
-        UIEdgeInsets inset = tableView.contentInset;
-        inset.top += _headerHeight;
-        tableView.contentInset = inset;
-        tableView.scrollIndicatorInsets = inset;
-        tableView.scrollsToTop = NO;
-    }
-    [self.scrollView setContentOffset:CGPointMake(index*self.scrollView.bounds.size.width,self.scrollView.contentOffset.y) animated:animated];
-    [self layoutScrollViewWithIndex:index];
-    if (!animated) {
-        [self scrollViewDidEndDecelerating:self.scrollView];
-    }
 }
 
 - (void)loadViews {
@@ -198,22 +204,53 @@
     }
 }
 
-- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
-    _curOffsetX = scrollView.contentOffset.x;
-    MMTableViewController *vc = _vieControllers[_curIndx];
-    vc.tableView.scrollsToTop = YES;
-    UITableView *curScrollView = vc.tableView;
-    UIEdgeInsets insets = curScrollView.contentInset;
-    CGFloat maxY = insets.bottom + curScrollView.contentSize.height - curScrollView.bounds.size.height;
-    if (curScrollView.contentOffset.y > maxY) {
-        [curScrollView setContentOffset:CGPointMake(0, -insets.top) animated:YES];
+#pragma layOut---
+
+- (void)layoutHeaderWithViewController:(MMTableViewController *)vc {
+    UITableView *tableView = vc.tableView;
+    CGFloat offsetY = tableView.contentOffset.y;
+    CGRect frame = self.headerView.frame;
+    if (offsetY <= _headerHeight) {
+        frame.origin.y = 0;
+    } else {
+        CGFloat offY = tableView.contentOffset.y+ _headerHeight;
+        frame.origin.y = -offY;
     }
-    NSLog(@"1");
+    self.headerView.frame = frame;
 }
 
+- (void)layoutScrollViewWithIndex:(NSInteger)index {
+    if (index<0 || index>_vieControllers.count - 1 || ![self.mapTable objectForKey:@(index).stringValue]) {
+        return;
+    }
+    MMTableViewController *vc = _vieControllers[index];
+    UITableView *tableView = vc.tableView;
+    if (CGRectGetMaxY(self.headerView.frame) > _tabBarHeight) {
+        tableView.contentOffset = CGPointMake(tableView.contentOffset.x, -CGRectGetMaxY(self.headerView.frame));
+    } else  {
+        if (tableView.contentOffset.y > -_tabBarHeight) {
+            MMTableViewController *vc = _vieControllers[index];
+            vc.tableView.scrollsToTop = YES;
+            UITableView *curScrollView = vc.tableView;
+            UIEdgeInsets insets = curScrollView.contentInset;
+            CGFloat maxY = insets.bottom + curScrollView.contentSize.height - curScrollView.bounds.size.height;
+            if (curScrollView.contentOffset.y > maxY) {
+                curScrollView.contentOffset =CGPointMake(0, -insets.top);
+            }
+        } else {
+            tableView.contentOffset = CGPointMake(tableView.contentOffset.x, -_tabBarHeight);
+        }
+    }
+}
+
+#pragma scrollViewDelegate---
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+    [self scrollViewDidEndDecelerating:self.scrollView];
+}
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-   
+    
     if (scrollView.contentOffset.y != _lastOffY || [scrollView isMemberOfClass:[UITableView class]]) {
         return;
     }
@@ -238,7 +275,7 @@
     int scrollToIndex = dbx;
     if (scrollView.contentOffset.x >(_curOffsetX+5)) {
         scrollToIndex = dbx;
-
+        
     } else if (scrollView.contentOffset.x <(_curOffsetX-5)) {
         scrollToIndex = flux;
     }
@@ -256,22 +293,9 @@
         tableView.contentInset = inset;
         tableView.scrollIndicatorInsets = inset;
         [tableView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionOld context:nil];
-         tableView.contentOffset = CGPointMake(tableView.contentOffset.x, -CGRectGetMaxY(self.headerView.frame));
+        tableView.contentOffset = CGPointMake(tableView.contentOffset.x, -CGRectGetMaxY(self.headerView.frame));
         tableView.scrollsToTop = YES;
     }
-}
-
-- (void)layoutHeaderWithViewController:(MMTableViewController *)vc {
-    UITableView *tableView = vc.tableView;
-    CGFloat offsetY = tableView.contentOffset.y;
-    CGRect frame = self.headerView.frame;
-    if (offsetY <= _headerHeight) {
-        frame.origin.y = 0;
-    } else {
-        CGFloat offY = tableView.contentOffset.y+ _headerHeight;
-        frame.origin.y = -offY;
-    }
-    self.headerView.frame = frame;
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
@@ -293,34 +317,6 @@
     
 }
 
-- (void)layoutScrollViewWithIndex:(NSInteger)index {
-    if (index<0 || index>_vieControllers.count - 1 || ![self.mapTable objectForKey:@(index).stringValue]) {
-        return;
-    }
-    
-    MMTableViewController *vc = _vieControllers[index];
-    UITableView *tableView = vc.tableView;
-    if (CGRectGetMaxY(self.headerView.frame) > _tabBarHeight) {
-        tableView.contentOffset = CGPointMake(tableView.contentOffset.x, -CGRectGetMaxY(self.headerView.frame));
-    } else  {
-        if (tableView.contentOffset.y > -_tabBarHeight) {
-            MMTableViewController *vc = _vieControllers[index];
-            vc.tableView.scrollsToTop = YES;
-            UITableView *curScrollView = vc.tableView;
-            UIEdgeInsets insets = curScrollView.contentInset;
-            CGFloat maxY = insets.bottom + curScrollView.contentSize.height - curScrollView.bounds.size.height;
-            if (curScrollView.contentOffset.y > maxY) {
-                curScrollView.contentOffset =CGPointMake(0, -insets.top);
-               // [curScrollView setContentOffset:CGPointMake(0, -insets.top-20) animated:NO];
-            }
-            
-        } else {
-            tableView.contentOffset = CGPointMake(tableView.contentOffset.x, -_tabBarHeight);
-        }
-        
-    }
-}
-
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     NSLog(@"");
 }
@@ -330,16 +326,19 @@
     _curOffsetX = scrollView.contentOffset.x;
     MMTableViewController *vc = _vieControllers[_curIndx];
     vc.tableView.scrollsToTop = YES;
-    UITableView *curScrollView = vc.tableView;
-    UIEdgeInsets insets = curScrollView.contentInset;
-    CGFloat maxY = insets.bottom + curScrollView.contentSize.height - curScrollView.bounds.size.height;
-    if (curScrollView.contentOffset.y > maxY) {
-         [curScrollView setContentOffset:CGPointMake(0, -insets.top) animated:YES];
+    UITableView *tableView = vc.tableView;
+    UIEdgeInsets insets = tableView.contentInset;
+    CGFloat maxY = insets.bottom + tableView.contentSize.height - tableView.bounds.size.height;
+    if (tableView.contentOffset.y > maxY) {
+        [tableView setContentOffset:CGPointMake(0, -insets.top) animated:YES];
     }
-    //[self layoutHeaderWithViewController:vc];
+    
+    if ( -(tableView.contentOffset.y) > CGRectGetMaxY(self.headerView.frame)) {
+        [self observeValueForKeyPath:@"contentOffset" ofObject:tableView change:nil context:nil];
+    }
 }
 
-
+#pragma KVO---
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if (_vieControllers.count == 0) {
@@ -363,6 +362,5 @@
     }
     self.headerView.frame = frame;
 }
-
 
 @end

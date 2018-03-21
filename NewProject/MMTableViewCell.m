@@ -17,6 +17,7 @@
 @property (nonatomic ,strong) UILabel *timerHitTitle;;
 @property (nonatomic ,strong) UIView *replayBackView;
 @property (nonatomic ,strong) UIButton *avatarBtn;
+@property (nonatomic ,strong) UIColor *blueColor;
 @end
 
 @implementation MMTableViewCell
@@ -31,7 +32,6 @@
 }
 
 - (void)setUI {
-    self.contentView.backgroundColor = [UIColor blueColor];
     [self.contentView addSubview:self.nameTitle];
     [self.contentView addSubview:self.avatarView];
     [self.contentView addSubview:self.content];
@@ -121,7 +121,6 @@
     if (!_avatarBtn) {
         _avatarBtn = [[UIButton alloc] init];
         _avatarBtn.backgroundColor = [UIColor clearColor];
-        [_avatarBtn addTarget:self action:@selector(clickedAvatar) forControlEvents:UIControlEventTouchUpInside];
     }
     return _avatarBtn;
 }

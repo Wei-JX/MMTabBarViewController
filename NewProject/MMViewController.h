@@ -23,7 +23,7 @@
 
 @end
 @interface MMViewController : UIViewController
-
+- (CGSize)getCollectionViewItemSize;
 @property (nonatomic, weak) id<MMTableViewDelegate> delegate;
 
 

@@ -22,7 +22,6 @@
     CGRect frame = self.tableView.frame;
     frame.size.height -=64;
     self.tableView.frame = frame;
-
     [self.tableView registerClass:[MMTableViewCell class] forCellReuseIdentifier:@"MMTableViewCell"];
 
     // Do any additional setup after loading the view.

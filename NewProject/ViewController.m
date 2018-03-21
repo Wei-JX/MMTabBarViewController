@@ -26,7 +26,7 @@
     [self.wxBtn addTarget:self action:@selector(xwBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.wxBtn];
     
-    self.qqBtn = [[UIButton alloc] initWithFrame:CGRectMake(100, 200, 100, 100)];
+    self.qqBtn = [[UIButton alloc] initWithFrame:CGRectMake(100, 250, 100, 100)];
     self.qqBtn.backgroundColor = [UIColor blueColor];
     [self.qqBtn addTarget:self action:@selector(qqBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.qqBtn];
@@ -34,43 +34,33 @@
 
 - (void)xwBtnClicked {
     
-    
     MMViewController * mmViewController = [[MMViewController alloc] init];
     mmViewController.delegate = self;
-    
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:mmViewController];
-    
     [self presentViewController:nav animated:YES completion:nil];
-  // [self presentViewController:mmViewController animated:YES completion:^{
-        
-//}];
 }
 
 - (NSUInteger)numberOfMMTableViewControllers {
-    return 60;
+    return [self titlesForTabBar].count;
 }
 
 - (UIViewController *)MMTableViewControllerWithIndex:(NSUInteger)index {
     if (index ==0) {
         SMMTableViewController * aaa = [SMMTableViewController new];
         aaa.index = 2;
-        aaa.view.backgroundColor = [UIColor grayColor];
         return aaa;
     }
     else if (index ==1){
         SMMTableViewController * aaa = [SMMTableViewController new];
         aaa.index = 30;
-        aaa.view.backgroundColor = [UIColor grayColor];
         return aaa;
     } else if (index ==2) {
         SMMTableViewController * aaa = [SMMTableViewController new];
         aaa.index = 2;
-        aaa.view.backgroundColor = [UIColor grayColor];
         return aaa;
     }else {
         SMMTableViewController * aaa = [SMMTableViewController new];
         aaa.index = 20;
-        aaa.view.backgroundColor = [UIColor grayColor];
         return aaa;
     }
 }
@@ -80,7 +70,7 @@
 }
 
 - (NSArray *)titlesForTabBar {
-    return @[@"gew",@"wf",@"个个",@"各位",@"广告",@"广告",@"个人过",@"酷云",@"鸡同",@"一天",@"犹太",@"今天",@"就突然",@"姜",@"不热",@"个人",@"和融",@"过热",@"王强",@"广告人",@"过热",@"好热好",@"问我",@"好热",@"绯闻",@"呵人",@"黄日",@"热狗",@"热河",@"好热",@"请问",@"企鹅",@"好热",@"研究",@"可以",];
+    return @[@"gew",@"wf",@"个个",@"各位",@"广告",@"广告",@"个人",@"酷云",@"鸡同",@"一天",@"犹太",@"今天",@"就突然",@"姜",@"不热",@"个人",@"和融",@"过热",@"王强",@"广告人",@"过热",@"好热好",@"问我",@"好热",@"绯闻",@"呵人",@"黄日",@"热狗",@"热河",@"好热",@"请问",@"企鹅",@"好热",@"研究",@"可以",];
 }
 
 - (UIView *)MMTableHeaderView {
