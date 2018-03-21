@@ -27,7 +27,6 @@ PODS:
   - SDVersion (4.3.2)
   - TencentOpenAPI (3.2.3)
   - WeChatSDK-iOS (1.7.3)
-  - YppBaseRequest (0.0.1)
   - YTKNetwork (2.0.4):
     - AFNetworking (~> 3.0)
 
@@ -39,7 +38,6 @@ DEPENDENCIES:
   - SDVersion (= 4.3.2)
   - TencentOpenAPI (from `TencentOpenAPI`)
   - WeChatSDK-iOS (~> 1.7.3)
-  - YppBaseRequest (from `YppBaseRequest`)
   - YTKNetwork
 
 EXTERNAL SOURCES:
@@ -48,8 +46,6 @@ EXTERNAL SOURCES:
     :tag: 2.5.2
   TencentOpenAPI:
     :path: TencentOpenAPI
-  YppBaseRequest:
-    :path: YppBaseRequest
 
 CHECKOUT OPTIONS:
   ReactiveCocoa:
@@ -65,9 +61,8 @@ SPEC CHECKSUMS:
   SDVersion: 18f32c835c1543611fcfae3c6accd9a04b90597e
   TencentOpenAPI: 691cf85a287ce47f9b0d61dc4c93dec7ec72d613
   WeChatSDK-iOS: 5ab1275da6f245c41232870f8215998c59cbb539
-  YppBaseRequest: b6519e9a695e46e8a26cdb7f7fd21d0dba13bff7
   YTKNetwork: df8a7a5597bda1664a4efaa7ef871a818a887fe0
 
-PODFILE CHECKSUM: 28bffa1c60b9fac008b78a5904b50d6254d713b8
+PODFILE CHECKSUM: 3b2590233141582cb60c630f50ba6feba37ea687
 
 COCOAPODS: 1.4.0
