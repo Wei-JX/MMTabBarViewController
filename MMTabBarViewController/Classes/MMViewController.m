@@ -10,7 +10,7 @@
 //主tabBar控制器
 ///////
 
-#define MINOFFSET 10
+#define test 1  //如正式项目，请把1改成任意非1值
 
 #import "MMViewController.h"
 #import "MMTableViewController.h"
@@ -32,6 +32,7 @@
     CGFloat _horizonOffset;
     CGFloat _headerHeight;
     NSUInteger _curIndx;
+    NSUInteger _lasIndex;
     CGFloat _curOffsetX;
     CGFloat _tabBarHeight;
     CGFloat _lastOffY;
@@ -50,7 +51,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.edgesForExtendedLayout=UIRectEdgeBottom;
+    self.edgesForExtendedLayout=UIRectEdgeNone;
     self.title = @"Bar控制器";
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.backView = [[UIView alloc] initWithFrame:self.view.bounds];
@@ -72,7 +73,7 @@
     NSUInteger vcNumbers = [self.delegate numberOfMMTableViewControllers];
     self.scrollView.contentSize = CGSizeMake(self.scrollView.bounds.size.width *vcNumbers , self.scrollView.bounds.size.height);
     [self.backView addSubview:self.scrollView];
-
+    
     [self loadTabItems];
     [ self loadHeaderView ];
     [self loadViews];
@@ -86,6 +87,10 @@
     [super viewWillDisappear:animated];
 }
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+}
 - (void)removeKVO {
     [_vieControllers enumerateObjectsUsingBlock:^(MMTableViewController *obj, NSUInteger idx, BOOL * _Nonnull stop) {
         UITableView *tableView = obj.tableView;
@@ -114,9 +119,10 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    NSUInteger vcNumbers = [self.delegate numberOfMMTableViewControllers];
-    self.scrollView.contentSize = CGSizeMake(self.scrollView.bounds.size.width *vcNumbers , self.scrollView.bounds.size.height);
-    // [self loadViews];
+    if (test ==1) {
+        NSUInteger vcNumbers = [self.delegate numberOfMMTableViewControllers];
+        self.scrollView.contentSize = CGSizeMake(self.scrollView.bounds.size.width *vcNumbers , self.scrollView.bounds.size.height);
+    }
 }
 
 - (void)tabBarScrollToIndex:(NSInteger)index {
@@ -136,7 +142,6 @@
         [vc didMoveToParentViewController:self];
         [self.mapTable setObject:vc forKey:@(index).stringValue];
         UITableView *tableView = vc.tableView;
-        
         [tableView setContentOffset:CGPointMake(tableView.contentOffset.x,0) animated:NO];
         
         [tableView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionOld context:nil];
@@ -184,6 +189,7 @@
         CGSize size = [self.delegate sizeOfTabBarToBound];
         self.tabBar = [[MMTabBarViewController alloc] initWithFrame:CGRectMake(0, 0, self.backView.frame.size.width, size.height) ViewController:self];
         self.tabBar.delegate = self;
+        self.tabBar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     }
 }
 
@@ -214,8 +220,10 @@
 
 - (void)loadViews {
     NSUInteger vcNumbers = 0;
+    
     if ([self.delegate respondsToSelector:@selector(numberOfMMTableViewControllers)]) {
         vcNumbers = [self.delegate numberOfMMTableViewControllers];
+        self.scrollView.contentSize = CGSizeMake(self.scrollView.bounds.size.width *vcNumbers , self.scrollView.bounds.size.height);
     }
     if (vcNumbers >0) {
         for (int i =0 ;i<vcNumbers;i++) {
@@ -301,7 +309,6 @@
     }
     
     float x = scrollView.contentOffset.x /self.scrollView.bounds.size.width;
-    CGFloat ftx = scrollView.contentOffset.x -self.scrollView.bounds.size.width*floor(x);
     int dbx = ceil(x);
     int flux = floor(x);
     _curIndx = dbx;
@@ -381,6 +388,15 @@
     if ( -(tableView.contentOffset.y) > CGRectGetMaxY(self.headerView.frame)) {
         [self observeValueForKeyPath:@"contentOffset" ofObject:tableView change:nil context:nil];
     }
+    if (_curIndx!= _lasIndex && [self.mapTable objectForKey:@(_lasIndex).stringValue]) {
+        MMTableViewController *lastVC = _vieControllers[_lasIndex];
+        UITableView *tableView = lastVC.tableView;
+        [self.view removeGestureRecognizer:tableView.panGestureRecognizer];
+    }
+    
+    _lasIndex = _curIndx;
+    
+    [self.view addGestureRecognizer:tableView.panGestureRecognizer];
 }
 
 #pragma KVO---
@@ -393,7 +409,6 @@
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
         return;
     }
-    
     MMTableViewController *tabVC = _vieControllers[_curIndx];
     UITableView *tabView = tabVC.tableView;
     CGFloat offY = tabView.contentOffset.y+ _headerHeight;
