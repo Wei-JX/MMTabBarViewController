@@ -36,10 +36,17 @@
 @end
 
 @interface MMViewController : UIViewController
+
 ////////获取Item尺寸
 - (CGSize)getCollectionViewItemSize;
 
+//重新加载
+- (void)reloadTabBarVC;
+
+- (void)scrollToIndex:(NSInteger)index;
+
 //delegate
+
 @property (nonatomic, weak) id<MMTableViewDelegate> delegate;
 
 

@@ -22,6 +22,7 @@
 @property (nonatomic ,strong) UIScrollView *scrollView;
 @property (nonatomic ,strong) NSMutableArray *vieControllers;
 @property (nonatomic ,strong) NSMapTable *mapTable;
+@property (nonatomic ,strong) NSMapTable *kvoTable;
 @property (nonatomic ,strong) UIView *headerView;
 @property (nonatomic ,strong) UIView *backView;
 @property (nonatomic ,strong) MMTabBarViewController*tabBar;
@@ -71,20 +72,18 @@
     NSUInteger vcNumbers = [self.delegate numberOfMMTableViewControllers];
     self.scrollView.contentSize = CGSizeMake(self.scrollView.bounds.size.width *vcNumbers , self.scrollView.bounds.size.height);
     [self.backView addSubview:self.scrollView];
-    
-    UIView *aaa = [[UIView alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
-    aaa.backgroundColor = [UIColor blueColor];
-    [self.scrollView addSubview:aaa];
 
-    CGSize size = [self.delegate sizeOfTabBarToBound];
-    self.tabBar = [[MMTabBarViewController alloc] initWithFrame:CGRectMake(0, 0, self.backView.frame.size.width, size.height) ViewController:self];
-    self.tabBar.delegate = self;
+    [self loadTabItems];
     [ self loadHeaderView ];
     [self loadViews];
 }
 
+- (void)dealloc {
+    [self removeKVO];
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
-    
+    [super viewWillDisappear:animated];
 }
 
 - (void)removeKVO {
@@ -95,6 +94,13 @@
 }
 
 #pragma delegete--
+
+- (void)scrollToIndex:(NSInteger)index {
+    if (index == _curIndx) {
+        return;
+    }
+    [self tabBarScrollToIndex:index];
+}
 
 - (CGSize)getCollectionViewItemSize {
     return [self.delegate sizeOfTabBarToBound];
@@ -132,7 +138,7 @@
         UITableView *tableView = vc.tableView;
         
         [tableView setContentOffset:CGPointMake(tableView.contentOffset.x,0) animated:NO];
-        // tableView.contentOffset = CGPointMake(tableView.contentOffset.x, -CGRectGetMaxY(self.headerView.frame));
+        
         [tableView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionOld context:nil];
         UIEdgeInsets inset = tableView.contentInset;
         inset.top += _headerHeight;
@@ -140,6 +146,7 @@
         tableView.scrollIndicatorInsets = inset;
         tableView.scrollsToTop = NO;
     }
+    
     [self.scrollView setContentOffset:CGPointMake(index*self.scrollView.bounds.size.width,self.scrollView.contentOffset.y) animated:animated];
     [self layoutScrollViewWithIndex:index];
     if (!animated) {
@@ -149,11 +156,41 @@
 
 #pragma load--
 
+- (void)reloadTabBarVC {
+    if (self.tabBar) {
+        [self.tabBar removeFromSuperview];
+        self.tabBar = nil;
+    }
+    [self.headerView removeFromSuperview];
+    self.headerView = nil;
+    _tabBarHeight = 0;
+    _headerHeight = 0;
+    [self.mapTable removeAllObjects];
+    [_vieControllers enumerateObjectsUsingBlock:^(MMTableViewController *vc, NSUInteger idx, BOOL * _Nonnull stop) {
+        [vc.tableView removeObserver:self forKeyPath:@"contentOffset"];
+        [vc.tableView removeFromSuperview];
+        [vc.view removeFromSuperview];
+    }];
+    
+    [_vieControllers removeAllObjects];
+    
+    [self loadTabItems];
+    [self loadHeaderView];
+    [self loadViews];
+}
+
+- (void)loadTabItems {
+    if ([self.delegate respondsToSelector:@selector(sizeOfTabBarToBound)]) {
+        CGSize size = [self.delegate sizeOfTabBarToBound];
+        self.tabBar = [[MMTabBarViewController alloc] initWithFrame:CGRectMake(0, 0, self.backView.frame.size.width, size.height) ViewController:self];
+        self.tabBar.delegate = self;
+    }
+}
+
 - (void)loadHeaderView {
     if ([self.delegate respondsToSelector:@selector(MMTableHeaderView)]) {
         self.headerView = [self.delegate MMTableHeaderView];
         self.headerView.clipsToBounds = YES;
-        // self.headerView.frame = CGRectMake(0, 0, CGRectGetWidth(self.backView.bounds), _headerHeight);
         [self.backView addSubview:self.headerView];
     }
     
@@ -176,7 +213,10 @@
 }
 
 - (void)loadViews {
-    NSUInteger vcNumbers = [self.delegate numberOfMMTableViewControllers];
+    NSUInteger vcNumbers = 0;
+    if ([self.delegate respondsToSelector:@selector(numberOfMMTableViewControllers)]) {
+        vcNumbers = [self.delegate numberOfMMTableViewControllers];
+    }
     if (vcNumbers >0) {
         for (int i =0 ;i<vcNumbers;i++) {
             MMTableViewController *vc = [self.delegate MMTableViewControllerWithIndex:i];
